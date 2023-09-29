@@ -96,7 +96,7 @@ class InsertDialog(QDialog):
         course = self.course_name.itemText(self.course_name.currentIndex())
         mobile = self.mobile.text()
         
-        connection = sqlite3.connect("database.db")
+        connection = sqlite3.connect("database/database.db")
         cursor = connection.cursor()
         cursor.execute("INSERT INTO students (name, course, mobile) VALUES (?,?,?)",
                        (name, course, mobile))
@@ -127,7 +127,19 @@ class SearchDialog(QDialog):
         self.setLayout(layout)
         
     def search_funct(self):
-        pass
+        name = self.search_name.text()
+        connection = sqlite3.connect("database/database.db")
+        cursor = connection.cursor()
+        result = cursor.execute("SELECT * FROM students WHERE name = ?", (name,))
+        rows = list(result)
+        print(rows)
+        items = student_mgmt.table.findItems(name, Qt.MatchFlag.MatchFixedString)
+        for item in items:
+            print(item)
+            student_mgmt.table.item(item.row(), 1).setSelected(True)
+            
+        cursor.close()
+        connection.close()
         
 
 app = QApplication(sys.argv)
