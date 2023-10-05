@@ -99,13 +99,48 @@ class MainWindow(QMainWindow):
         
 
 class EditDialog(QDialog):
-    pass
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Update Student Data")
+        self.setFixedWidth(300)
+        self.setFixedHeight(300)
+        
+        layout = QVBoxLayout()
+        
+        index = student_mgmt.table.currentRow()
+        student_name = student_mgmt.table.item(index, 1).text()
+        
+        # Student Layout Widgets
+        self.student_name = QLineEdit(student_name)
+        # show existing value as default
+        self.student_name.setPlaceholderText("John Smith")
+        layout.addWidget(self.student_name)
+        
+        # Combo box of courses
+        self.course_name = QComboBox()
+        courses = ["Biology", "Math", "Astronomy", "Physics"]
+        self.course_name.addItems(courses)
+        layout.addWidget(self.course_name)
+        
+        # Add Mobile Widget
+        self.mobile = QLineEdit()
+        self.mobile.setPlaceholderText("1122334455")
+        layout.addWidget(self.mobile)
+        
+        # Submit Button
+        button = QPushButton("Register")
+        button.clicked.connect(self.update_student)
+        layout.addWidget(button)
+        
+    def update_student(self):
+        pass
+        
+
 
 class DeleteDialog(QDialog):
     pass
     
-        
-        
+          
 class InsertDialog(QDialog):
     def __init__(self):
         super().__init__()
